@@ -2,22 +2,10 @@
 #include <fstream>
 #include <string>
 #include <WinSock2.h>
-#include <filesystem>
+
 #include <vector>
 constexpr int DEFAULT_PORT = 27015;
 
-// Hàm kiểm tra và tạo thư mục nếu nó chưa tồn tại
-bool CreateDirectoryIfNotExists(const std::string& directory) {
-    if (!std::filesystem::exists(directory)) { // Kiểm tra xem thư mục đã tồn tại chưa
-        if (!std::filesystem::create_directories(directory)) { // Tạo thư mục nếu chưa tồn tại
-            std::cerr << "Error: Failed to create directory - " << directory << std::endl;
-            return false;
-        } else {
-            std::cout << "Created directory: " << directory << std::endl;
-        }
-    }
-    return true;
-}
 
 // Hàm nhận và lưu trữ văn bản
 void ReceiveText(SOCKET socket) {
@@ -83,10 +71,7 @@ int main(int argc, char* argv[]) {
     // Lấy thư mục lưu trữ từ đối số dòng lệnh
     std::string storage_directory = argv[1];
 
-    // Kiểm tra và tạo thư mục lưu trữ nếu nó chưa tồn tại
-    if (!CreateDirectoryIfNotExists(storage_directory)) {
-        return 1;
-    }
+    
 
     // Khởi tạo Winsock
     WSADATA wsaData;
